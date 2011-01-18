@@ -357,11 +357,13 @@ This will need to be extended as we test on more OSes."
        (let* ((lib (get-foreign-library library))
               (spec (foreign-library-spec lib)))
          (%do-load lib library spec)))
-      (string
+      (t
        (let* ((lib-name
                (gensym (concatenate 'string
                                     (string-upcase
-                                     (file-namestring library))
+                                     (etypecase library
+                                       (string (file-namestring library))
+                                       (list (second library))))
                                     "-")))
               (lib
                (make-instance 'foreign-library
